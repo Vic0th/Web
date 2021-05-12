@@ -297,7 +297,7 @@ function gamePlay() {
     canv.setAttribute("height", "720");
 
     document.getElementById('songID').play();
-    document.getElementById('songID').volume = 0.07;
+    document.getElementById('songID').volume = 0.1;
     draw();
 }
 gameBut.addEventListener("click", gamePlay);
