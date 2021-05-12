@@ -20,6 +20,6 @@ There's a scoring section below the game so you can track your progression.
 ## --Contributors--
 #### **Furkan Sayan** - All the coding , background and obstacle drawings , the web page.
 #### **Xalnpei** - The character animations
-#### Royalty Free Planet on youtube - Music : Hypnotica – Skyfall, Link : https://youtu.be/
+#### Royalty Free Planet on Youtube - Music : Hypnotica – Skyfall, Link : https://youtu.be/
 
 ##### Thank you everyone who played or checked the code of the game. Have fun!
