@@ -10,6 +10,7 @@ https://vicoth.github.io/JavaScript/KeepRunnin/
 
 ## --Gameplay--
 You either run, jump or slide.
+### It is highly recommended to be played with a KEYBOARD, buttons are for mobile.
 **For every 10 score , the game gets harder.
 The distance between obstacles are decreased as well as the movement speed is increased.**
 There's an input lag when using buttons on mobile , I couldn't manage to fix that just yet.
