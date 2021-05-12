@@ -1,5 +1,5 @@
 # Keep Runnin
-###by Furkan Sayan
+### by Furkan Sayan
 
 Keep Runnin is a simple 2d side-scroller running game which you aviod bumping over obstacles.
 
