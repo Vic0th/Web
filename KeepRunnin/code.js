@@ -188,10 +188,10 @@ function gameReload() {
 var maxScore = 0;
 var level;
 function scoring() {
-    document.getElementById("score").innerHTML = "Score: " + score;
+    document.getElementById("score").innerHTML = `<h3>Score: ` + score + `</h3>`;
     maxScore = (score > maxScore) ? score : maxScore;
-    document.getElementById("maxScore").innerHTML = "Max Score: " + maxScore ;
-
+    document.getElementById("maxScore").innerHTML = `<h3>Max Score: ` + maxScore + `</h3>` ;
+    
     if (score < 20) {
         move_speed = 30;
         dist = 750;
