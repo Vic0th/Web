@@ -302,7 +302,7 @@ function gamePlay() {
 }
 gameBut.addEventListener("click", gamePlay);
 
-//
+///////////////////////////////////////////////////////////////////
 //If you really have read this far , I respect that.
 //Hope you enjoyed the game. It took a long while for me to make.
-//
+///////////////////////////////////////////////////////////////////
