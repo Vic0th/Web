@@ -1,3 +1,4 @@
+//Made by Furkan Sayan
 /////////////////////////////////////////////////////////
 ////---------------------Settings--------------------////
 var ch_h = 240;
@@ -9,7 +10,7 @@ var Vy = 0;
 var dist = 750;
 var obs_h = 205;
 var obs_w = 110;
-var floor_h = 25;
+var floor_h = 75;
 
 /////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
@@ -30,6 +31,8 @@ var rope1 = new Image();
 var rope2 = new Image();
 var rope3 = new Image();
 
+var flr = new Image();
+
 //var song = new Audio();
 //song.src = "sounds/chilly.mp3";
 //song.play();
@@ -38,6 +41,7 @@ bg.src = "images/bg.png";
 obs1.src = "images/obstacle.png";
 obs2.src = "images/obstacle.png";
 obs3.src = "images/obstacle.png";
+flr.src = "images/floor.png";
 
 ch_air.src = "images/char_onAir.png";
 
@@ -91,6 +95,8 @@ var x = 0;
 function animRun() {
     ch_h = 240;
     ch_w = 130;
+
+    py = canv.height - floor_h - ch_h;
 
     if (x == 16)
         x = 0;
@@ -166,7 +172,6 @@ function gameReload() {
     Vy = 0;
 
     dist = 750;
-    floor_h = 25;
 
     score = 0;
 
@@ -208,12 +213,12 @@ function scoring() {
 var upBut = document.getElementById("upBut");
 var downBut = document.getElementById("downBut");
 
-//document.addEventListener("keydown", Slider);
-//document.addEventListener("keydown", JumpF);
-
 document.addEventListener("keydown", act_control);
-upBut.addEventListener("click", JumpF);
-downBut.addEventListener("click", Slider);
+
+upBut.addEventListener("mouseover", JumpF);
+downBut.addEventListener("mouseover", Slider);
+//upBut.addEventListener("click", JumpF);
+//downBut.addEventListener("click", Slider);
 
 
 function act_control(e) {
@@ -236,7 +241,7 @@ function slide() {
     if (sTime < 22) {
         ch_w = 238;
         ch_h = 93;
-        py = canv.height - floor_h - ch_h;
+        py = canv.height - floor_h - ch_h + 10;
         scr.drawImage(ch_sld, px, py, ch_w, ch_h);
         sTime++;
     }
@@ -250,6 +255,7 @@ function slide() {
 function draw() {
 
     scr.drawImage(bg, 0, 0, canv.width, canv.height);
+    scr.drawImage(flr, 0, canv.height - floor_h);
 
     obs_move();
     gravity();
@@ -291,7 +297,12 @@ function gamePlay() {
     canv.setAttribute("height", "720");
 
     document.getElementById('songID').play();
-    document.getElementById('songID').volume = 0.15;
+    document.getElementById('songID').volume = 0.07;
     draw();
 }
 gameBut.addEventListener("click", gamePlay);
+
+//
+//If you really have read this far , I respect that.
+//Hope you enjoyed the game. It took a long while for me to make.
+//
