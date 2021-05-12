@@ -215,8 +215,8 @@ var downBut = document.getElementById("downBut");
 
 document.addEventListener("keydown", act_control);
 
-upBut.addEventListener("click", JumpF);
-downBut.addEventListener("click", Slider);
+upBut.addEventListener("touchstart", JumpF);
+downBut.addEventListener("touchstart", Slider);
 //upBut.addEventListener("click", JumpF);
 //downBut.addEventListener("click", Slider);
 
