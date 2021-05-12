@@ -5,6 +5,7 @@ Keep Runnin is a simple 2d side-scroller running game which you aviod bumping ov
 
 ## --How To Play ?--
 You can play the game from the link below.
+Go to the link and smash the **Play & Run** button
 https://vicoth.github.io/JavaScript/KeepRunnin/
 
 ## --Gameplay--
@@ -13,7 +14,8 @@ You either run, jump or slide.
 The distance between obstacles are decreased as well as the movement speed is increased.**
 There's an input lag when using buttons on mobile , I couldn't manage to fix that just yet.
 
-![image](https://user-images.githubusercontent.com/58613119/117971235-4a3a3f00-b332-11eb-9bc4-7cee4c8f069c.png)
+![image](https://user-images.githubusercontent.com/58613119/117974250-077a6600-b336-11eb-9458-6bd74a13d1a3.png)
+![image](https://user-images.githubusercontent.com/58613119/117974257-0a755680-b336-11eb-9299-e73ba2089b43.png)
 
 There's a scoring section below the game so you can track your progression.
 
