@@ -164,51 +164,6 @@ function hitReg(){
     }
 }
 
-function gameReload() {
-    ch_h = 240;
-    ch_w = 130;
-
-    move_speed = 30;
-    Vy = 0;
-
-    dist = 750;
-
-    score = 0;
-
-    px = 150;
-    py = 500;
-
-    slidin = false;
-
-    ob_x = [(canv.width), (canv.width + dist), (canv.width + 2 * dist)];
-    ob_y = [(y_rand()), (y_rand()), (y_rand())];
-}
-
-
-var maxScore = 0;
-var level;
-function scoring() {
-    document.getElementById("score").innerHTML = `<h3>Score: ` + score + `</h3>`;
-    maxScore = (score > maxScore) ? score : maxScore;
-    document.getElementById("maxScore").innerHTML = `<h3>Max Score: ` + maxScore + `</h3>` ;
-    
-    if (score < 20) {
-        move_speed = 30;
-        dist = 750;
-    }
-    level = 1;
-    while (1) {
-        if (score < (level * 10) ) {
-            move_speed = 30 + level*2 - 2;
-            dist = 750 - (level * 2) + 3;
-            if (dist < 700)
-                dist = 700;
-            break;
-        }
-        level++;
-    }
-
-}
 
 var upBut = document.getElementById("upBut");
 var downBut = document.getElementById("downBut");
@@ -236,9 +191,10 @@ function Slider() {
     slidin = true;
 }
 
+var slideLen = 22;
 var sTime = 1;
 function slide() {
-    if (sTime < 22) {
+    if (sTime < slideLen) {
         ch_w = 238;
         ch_h = 93;
         py = canv.height - floor_h - ch_h + 10;
@@ -250,6 +206,55 @@ function slide() {
         sTime = 1;
         animRun();
     }
+}
+
+var maxScore = 0;
+var level;
+function scoring() {
+    document.getElementById("score").innerHTML = `<h3>Score: ` + score + `</h3>`;
+    maxScore = (score > maxScore) ? score : maxScore;
+    document.getElementById("maxScore").innerHTML = `<h3>Max Score: ` + maxScore + `</h3>`;
+
+    if (score < 20) {
+        move_speed = 30;
+        dist = 750;
+    }
+    level = 1;
+    while (1) {
+        if (score < (level * 10)) {
+            move_speed = 30 + level * 2 - 2;
+            dist = 750 - (level * 2) + 2;
+            slideLen = 22 - level + 1;
+
+            if (dist < 700)
+                dist = 700;
+            break;
+        }
+        level++;
+    }
+
+}
+
+function gameReload() {
+    ch_h = 240;
+    ch_w = 130;
+
+    move_speed = 30;
+    Vy = 0;
+
+    dist = 750;
+
+    score = 0;
+
+    px = 150;
+    py = 500;
+
+    slideLen = 22;
+
+    slidin = false;
+
+    ob_x = [(canv.width), (canv.width + dist), (canv.width + 2 * dist)];
+    ob_y = [(y_rand()), (y_rand()), (y_rand())];
 }
 
 function draw() {
@@ -297,12 +302,12 @@ function gamePlay() {
     canv.setAttribute("height", "720");
 
     document.getElementById('songID').play();
-    document.getElementById('songID').volume = 0.1;
+    document.getElementById('songID').volume = 0.07;
     draw();
 }
 gameBut.addEventListener("click", gamePlay);
 
-///////////////////////////////////////////////////////////////////
+//
 //If you really have read this far , I respect that.
 //Hope you enjoyed the game. It took a long while for me to make.
-///////////////////////////////////////////////////////////////////
+//
