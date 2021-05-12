@@ -23,6 +23,6 @@ There's a scoring section below the game so you can track your progression.
 ## --Contributors--
 #### **Furkan Sayan** - All the coding , background and obstacle drawings , the web page.
 #### **Xalnpei** - The character animations
-####  Music : **Hypnotica – Skyfallon** on Youtube, Link : https://youtu.be/Fr6-F0KuTis
+####  Music by **Hypnotica – Skyfallon** on Youtube, Link : https://youtu.be/Fr6-F0KuTis
 
 ##### Thank you everyone who played or checked the code of the game. Have fun!
