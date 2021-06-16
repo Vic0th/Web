@@ -60,7 +60,7 @@ else if( $theuser != false && $isAdmin == false )
       Welcome back Admin!</br>
       Feel free to edit the whole site.</br></br>
       You cannot write blogs here, you need to log into a normal account to do so.</br>
-      You can go to blog links with the links though.</br>
+      You can go to blogs with the links though.</br>
       Choose what you want to do with the buttons on the right.</br>
     </div><!-- /.blog-main -->
 
