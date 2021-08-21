@@ -6,7 +6,7 @@ Keep Runnin is a simple 2d side-scroller running game which you aviod bumping ov
 ## --How To Play ?--
 You can play the game from the link below.
 Go to the link and smash the **Play & Run** button
-https://vicoth.github.io/JavaScript/KeepRunnin/
+https://vic0th.github.io/Web/KeepRunnin/
 
 ## --Gameplay--
 You either run, jump or slide.
