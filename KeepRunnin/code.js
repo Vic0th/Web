@@ -164,16 +164,7 @@ function hitReg(){
     }
 }
 
-
-var upBut = document.getElementById("upBut");
-var downBut = document.getElementById("downBut");
-
 document.addEventListener("keydown", act_control);
-
-upBut.addEventListener("mousedown", JumpF);
-downBut.addEventListener("mousedown", Slider);
-//upBut.addEventListener("click", JumpF);
-//downBut.addEventListener("click", Slider);
 
 
 function act_control(e) {
@@ -300,7 +291,7 @@ function gamePlay() {
     vdiv.style.display = "none";
     canv.setAttribute("width", "1280");
     canv.setAttribute("height", "720");
-
+    console.log("it worked");
     document.getElementById('songID').play();
     document.getElementById('songID').volume = 0.07;
     draw();
@@ -309,5 +300,5 @@ gameBut.addEventListener("click", gamePlay);
 
 //
 //If you really have read this far , I respect that.
-//Hope you enjoyed the game. It took a long while for me to make.
+//Hope you enjoyed the game. It took a while for me to make.
 //
