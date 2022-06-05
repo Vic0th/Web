@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hamming Code</title>
+	<meta name="description" content="Hamming Code">
+    <meta name="keywords" content="HammingCode">
+	<meta name="viewport" content="width=device-width; initial-scale=1.0">
+	
+    <script>
+
+        XOR = (a,b) => {return a != b;};
+class CodeHammer{
+    //Data bits used for the calculation of redundant bits
+    static redMap = [[0,1,3,4,6,8,10,11,13,15],
+    [0,2,3,5,6,9,10,12,13],
+    [1,2,3,7,8,9,10,14,15],
+    [4,5,6,7,8,9,10],
+    [11,12,13,14,15]];
+    //Starting up the class and invoking necessary methods
+    constructor(input,isEncoder){
+        if(isEncoder){
+            this.data = input;
+            this.redCount = 2, this.red = [], this.comp;
+            this.FindRedCount();
+            this.red = this.RedCalculate();
+            this.Package();
+            this.errorFound = false;
+        }
+        else{
+            this.DePackage(input);
+            this.ParityCheck();
+        }
+    }
+    //Compute the number of redundant bits
+    FindRedCount(){
+        let tmp = this.data.length + 1;
+        while(Math.pow(2,this.redCount) < tmp + this.redCount)
+            this.redCount++;
+    }
+    //Calcualate the redundant bits
+    RedCalculate(){
+        let dl = this.data.length - 1;
+        let tmp , reds = [];
+        for(let r = 0; r < this.redCount; r++){
+            tmp = 0
+            for(let bit of CodeHammer.redMap[r]){
+                if(bit > dl)
+                    break;
+                tmp += Number(this.data[dl - bit]);
+            }
+            reds = String(tmp % 2) + reds;
+            //this.red = String(tmp % 2) + this.red;
+        }
+        return reds;
+    }
+    //Package redundant bits with data bits all together
+    Package(){
+        let d = 0, r = 0, dl = this.data.length - 1, rl = this.redCount - 1;
+        let tmp = 0, pack = "";
+        for(let x = 0; x < this.data.length + this.redCount; x++){
+            //Redundant Bit
+            if(tmp == x){
+                pack = this.red[rl - r] + pack;
+                r++; tmp = Math.pow(2,r) - 1;
+            }
+            //Data Bit
+            else{
+                pack = this.data[dl - d] + pack;
+                d++;
+            }
+        }
+        this.comp = pack;
+    }
+    //Seperate data and the redundants from the composite-package
+    DePackage(input){
+        let r = 0, tmp = input.length-1, data = "", reds = "";
+        for(let x = input.length-1; x > -1; x--){
+            if(x == tmp){
+                reds = input[x] + reds;
+                r++; tmp = input.length - Math.pow(2,r);
+            }
+            else
+                data = input[x] + data;
+        }
+        this.data = data;
+        this.red = reds;
+        this.redCount = reds.length;
+        this.comp = input;
+    }
+    //Check for errors
+    ParityCheck(){
+        let red = this.RedCalculate();
+        this.errorFound = (red != this.red);
+        this.errorBit = -1;
+        if(this.errorFound){
+            let tmp = "";
+            for(let x = 0; x < this.redCount; x++)
+                tmp +=  XOR(this.red[x],red[x]) ? "1" : "0";
+
+            this.errorBit = parseInt(tmp, 2);
+        }
+            
+    }
+    //Changing a bit of the composite-package
+    NOT(x){
+        if(this.comp[x] == "0")
+            this.comp[x] = "1";
+        else
+            this.comp[x] = "0";
+
+        //***Check the new data and parity bits 
+    }
+    //Get methods
+    GetData = () => {return this.data};
+    GetRedundants = () => {return this.red}
+    GetPackage = () => {return this.comp}
+    GetPackageLength = () => {return this.comp.length}
+}
+
+var hammerA, hammerB;
+
+function EncodeButton(){
+    let inp = document.getElementById("encode").value;
+    if(inp.length > 16){
+        alert("Data cannot ve longer than 16 bits");
+        return;
+    }
+    hammerA = new CodeHammer(inp,true);
+    let pack = hammerA.GetPackage();
+    let pl = hammerA.GetPackageLength();
+    let packTable = "", buttonTable = "";
+    let redCounter = hammerA.redCount - 1, tmp = pl - Math.pow(2,redCounter);
+    for(let x = 0; x < pl; x++){
+        if(x == tmp){
+            packTable += '\n<td class="classRed">' + pack[x] + '</td>';
+            redCounter--; tmp = pl - Math.pow(2,redCounter);
+        }
+        else
+            packTable += '\n<td class="classData">' + pack[x] + '</td>';
+
+            //buttonTable += `\n<td><input type="button" value="X" id="` + x + `"></td>`;
+    }
+    document.getElementById("EncodeTableData").innerHTML = packTable;
+    //document.getElementById("EncodeTableButtons").innerHTML = buttonTable;
+
+    let info = "Data: " + hammerA.GetData() + "<br>";
+    info += "Redundant Count: " + hammerA.redCount + "<br>";
+    info += "Redundants: " + hammerA.GetRedundants() + "<br>";
+    document.getElementById("encodeInfo").innerHTML = "<h2>" + info + "</h2>";
+}
+function DecodeButton(){
+    let inp = document.getElementById("decode").value;
+    if(inp.length > 21){
+        alert("Hammered data cannot ve longer than 21 bits");
+        return;
+    }
+    hammerB = new CodeHammer(inp,false);
+    let pack = hammerB.GetPackage();
+    let pl = hammerB.GetPackageLength();
+    let packTable = "";
+    let redCounter = hammerB.redCount - 1, tmp = pl - Math.pow(2,redCounter);
+    let y = pl - hammerB.errorBit;
+    for(let x = 0; x < pl; x++){
+        if(x == y){
+            packTable += '\n<td class="classError">' + pack[x] + '</td>';
+            if(x == tmp)
+                redCounter--; tmp = pl - Math.pow(2,redCounter);
+        }
+        else if(x == tmp){
+            packTable += '\n<td class="classRed">' + pack[x] + '</td>';
+            redCounter--; tmp = pl - Math.pow(2,redCounter);
+        }
+        else
+            packTable += '\n<td class="classData">' + pack[x] + '</td>';
+    }
+
+    let info = "Error Detected: " + (hammerB.errorFound ? "Yes<br>" : "No<br>");
+    if(hammerB.errorFound){
+        info += "Error Bit: " + hammerB.errorBit + "<br>";
+        let a = hammerB.GetPackage();
+        let b = a[y] == "1" ? "0" : "1";
+        let c = a.slice(0,y) + b + a.slice(y+1,hammerB.GetPackageLength());
+        info += "Corrected Package: " + c + "<br>";
+    }
+    document.getElementById("DecodeTableData").innerHTML = packTable;
+    document.getElementById("decodeInfo").innerHTML = "<h2>" + info + "</h2>";
+}
+    </script>
+
+    <style>
+        table{
+	margin-left: auto;
+  	margin-right: auto;
+}
+
+header{
+	text-align: center;
+}
+
+.flex{
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.header1{
+	font-size: 25px;
+}
+
+.encode{
+	font-size: 40px;
+	text-align: center;
+	width: 50%;
+}
+
+.decode{
+	font-size: 40px;
+	text-align: center;
+	width: 50%;
+}
+
+.classData{
+	font-size: 30px;
+	height: 40px;
+	width: 25px;
+	text-align: center;
+	border: 1px solid black;
+	background-color: #ffffff;
+}
+
+.classRed{
+	font-size: 30px;
+	height: 40px;
+	width: 25px;
+	text-align: center;
+	border: 1px solid black;
+	background-color: #BCBCBC;
+}
+
+.classError{
+	font-size: 30px;
+	height: 40px;
+	width: 25px;
+	text-align: center;
+	border: 1px solid black;
+	background-color: #ff5a5a;
+}
+
+.classInput{
+	height: 30px;
+	width: 400px;
+}
+
+.classtableEncode{
+	width: 50%;
+	text-align: center;
+}
+
+.classtableDecode{
+	width: 50%;
+	text-align: center;
+}
+
+.classButton{
+	height: 50px;
+	width: 100px;
+	font-size: 20px;
+}
+    </style>
+</head>
+
+<body>
+	<div>
+		<header>
+			<div style="font-size: 35px;">Hamming Code Encoder-Decoder</div>
+		</header>
+
+		<main>
+			<div class="flex">
+				<!-- Encode -->
+				<div class="encode">
+					<div><h2>Encoding</h2></div>
+					<input type="text" name="encode" id="encode" class="classInput">
+					<input type="button" id="buttonEncode" value="Encode" class="classButton" onclick="EncodeButton();"><br><br>
+				</div>
+				
+				<!-- Decode -->
+				<div class="decode">
+					<div><h2>Decoding</h2></div>
+					<input type="text" name="decode" id="decode" class="classInput">
+					<input type="button" id="buttonDecode" value="Decode" class="classButton" onclick="DecodeButton();"><br><br>
+				</div>
+				
+				<!-- Table Encode -->
+				<div class="classtableEncode" >
+					<table>
+						<tbody>
+							<tr id="EncodeTableData">
+							</tr>
+							<tr id="EncodeTableButtons">
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+				<!-- Table Decode -->
+				<div class="classtableDecode" id="DecodeTable">
+					<table>
+						<tbody>
+							<tr id="DecodeTableData">
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+				<div class="classtableEncode" id="encodeInfo">
+				</div>
+				<div class="classtableDecode" id="decodeInfo">
+				</div>
+			</div>
+		</main>
+	</div>
+</body>
+</html>
